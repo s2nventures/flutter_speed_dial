@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'animated_child.dart';
-import 'global_key_extension.dart';
 import 'animated_floating_button.dart';
 import 'background_overlay.dart';
+import 'global_key_extension.dart';
 import 'speed_dial_child.dart';
 import 'speed_dial_direction.dart';
 
@@ -249,13 +250,15 @@ class _SpeedDialState extends State<SpeedDial>
   @override
   void dispose() {
     if (overlayEntry != null) {
-      if (overlayEntry!.mounted) overlayEntry!.remove();
-      overlayEntry!.dispose();
+      if (overlayEntry!.mounted) overlayEntry?.remove();
+      overlayEntry?.dispose();
     }
+
     if (widget.renderOverlay && backgroundOverlay != null) {
-      if (backgroundOverlay!.mounted) backgroundOverlay!.remove();
-      backgroundOverlay!.dispose();
+      if (backgroundOverlay!.mounted) backgroundOverlay?.remove();
+      backgroundOverlay?.dispose();
     }
+
     _controller.dispose();
     widget.openCloseDial?.removeListener(_onOpenCloseDial);
     super.dispose();
@@ -323,6 +326,7 @@ class _SpeedDialState extends State<SpeedDial>
         // backgroundOverlay?.remove();
         return;
       }
+
       overlayEntry = OverlayEntry(
         builder: (ctx) => _ChildrensOverlay(
           widget: widget,
@@ -333,6 +337,7 @@ class _SpeedDialState extends State<SpeedDial>
           animationCurve: widget.animationCurve,
         ),
       );
+
       if (widget.renderOverlay) {
         backgroundOverlay = OverlayEntry(
           builder: (ctx) {
@@ -357,14 +362,19 @@ class _SpeedDialState extends State<SpeedDial>
       if (!mounted) return;
 
       _controller.forward();
-      if (widget.renderOverlay) Overlay.of(context).insert(backgroundOverlay!);
-      Overlay.of(context).insert(overlayEntry!);
+
+      if (widget.renderOverlay && backgroundOverlay != null) {
+        Overlay.maybeOf(context)?.insert(backgroundOverlay!);
+      }
+
+      if (overlayEntry != null) {
+        Overlay.maybeOf(context)?.insert(overlayEntry!);
+      }
     }
 
     if (!mounted) return;
-    setState(() {
-      _open = !_open;
-    });
+
+    setState(() => _open = !_open);
   }
 
   Widget _renderButton() {
@@ -492,14 +502,16 @@ class _SpeedDialState extends State<SpeedDial>
   @override
   Widget build(BuildContext context) {
     return (kIsWeb || !Platform.isIOS) && widget.closeDialOnPop
-        ? WillPopScope(
+        ? PopScope(
             child: _renderButton(),
-            onWillPop: () async {
+            onPopInvokedWithResult: (didPop, _) async {
+              if (didPop) {
+                return;
+              }
+
               if (_open) {
                 _toggleChildren();
-                return false;
               }
-              return true;
             },
           )
         : _renderButton();

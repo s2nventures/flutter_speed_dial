@@ -8,10 +8,10 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints:
+  flutter_lints: any
 
 environment:
-  sdk: ">=2.12.0 <4.0.0"
+  sdk: ">=2.15.0 <4.0.0"
   flutter: ">=2.5.0"
 
 platforms:

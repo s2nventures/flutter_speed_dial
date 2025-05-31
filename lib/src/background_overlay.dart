@@ -1,6 +1,7 @@
 library flutter_speed_dial;
 
 import 'package:flutter/material.dart';
+
 import 'global_key_extension.dart';
 
 class BackgroundOverlay extends AnimatedWidget {
@@ -31,7 +32,9 @@ class BackgroundOverlay extends AnimatedWidget {
     final Animation<double> animation = listenable as Animation<double>;
     return ColorFiltered(
         colorFilter: ColorFilter.mode(
-            color.withOpacity(opacity * animation.value), BlendMode.srcOut),
+          color.withAlpha((255 * opacity * animation.value).round()),
+          BlendMode.srcOut,
+        ),
         child: Stack(
           fit: StackFit.expand,
           children: [

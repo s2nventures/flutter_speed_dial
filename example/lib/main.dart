@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 void main() => runApp(const MyApp());
@@ -193,8 +192,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         vertical: 4, horizontal: 10),
                                     child: Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text(
-                                            describeEnum(item).toUpperCase())),
+                                        child: Text(item.name.toUpperCase())),
                                   );
                                 }).toList();
                               },
@@ -203,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   .map((item) {
                                 return DropdownMenuItem<SpeedDialDirection>(
                                   value: item,
-                                  child: Text(describeEnum(item).toUpperCase()),
+                                  child: Text(item.name.toUpperCase()),
                                 );
                               }).toList(),
                             ),

@@ -93,8 +93,8 @@ class AnimatedChild extends AnimatedWidget {
                 [
                   BoxShadow(
                     color: dark
-                        ? Colors.grey[900]!.withOpacity(0.7)
-                        : Colors.grey.withOpacity(0.7),
+                        ? Colors.grey[900]!.withAlpha(179)
+                        : Colors.grey.withAlpha(179),
                     offset: const Offset(0.8, 0.8),
                     blurRadius: 2.4,
                   ),
